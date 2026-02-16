@@ -15,18 +15,10 @@ class UsuariosController extends Controller
         try {
             Log::info('Datos recibidos:', $request->all());
             
-            $validated = $request->validate([
-                'fullname' => 'required|string',
-                'email' => 'required|email|unique:usuarios,email',
-                'password' => 'required|string|min:8',
-                'tipo' => 'required|string|in:Individual,Empresa',
-            ]);
-            
-            Log::info('Validación pasada');
-            
-            // Crear usuario con UUID explícito
+                      
+                        
             $usuario = Usuario::create([
-                'id' => Str::uuid()->toString(), // Generar UUID explícitamente
+                'id' => Str::uuid()->toString(), 
                 'nombre' => $request->fullname,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -64,9 +56,32 @@ class UsuariosController extends Controller
     
     public function login(Request $request)
     {
-        return response()->json([
-            'message' => 'Login recibido',
-            'data' => $request->all()
-        ]);
+        try {
+            $usuario = Usuario::where('email', $request->email)->first();
+
+            if (!$usuario || !Hash::check($request->password, $usuario->password)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Credenciales inválidas'
+                ], 401);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Inicio de sesión exitoso',
+                'data' => $usuario
+            ], 200);
+            
+        } catch (\Exception $e) {
+            Log::error('Error al iniciar sesión:', [
+                'message' => $e->getMessage(),
+            ]);
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al iniciar sesión',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

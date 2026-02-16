@@ -19,7 +19,7 @@ class Usuario extends Model
     const UPDATED_AT = 'updated_at';
 
     protected $fillable = [
-        'id', // ← Agrega esto para poder asignar UUID manualmente
+        'id', 
         'nombre',
         'email',
         'password',
