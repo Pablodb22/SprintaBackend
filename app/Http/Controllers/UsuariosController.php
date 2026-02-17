@@ -84,4 +84,36 @@ class UsuariosController extends Controller
             ], 500);
         }
     }
+
+    public function usuario(Request $request){
+        try{            
+            $email = request()->query('email');
+
+            Log::info("Email recibido: " . $email);
+
+            $usuario = Usuario::where('email', $email)->first();
+            if (!$usuario) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Usuario no encontrado'
+                ], 404);
+            }
+            return response()->json([
+                'success' => true,
+                'message' => 'Usuario encontrado',
+                'data' => $usuario
+            ], 200);            
+
+        }catch(\Exception $e){
+            Log::error('Error al obtener usuarios:', [
+                'message' => $e->getMessage(),
+            ]);
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener usuarios',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
