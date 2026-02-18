@@ -116,4 +116,52 @@ class UsuariosController extends Controller
             ], 500);
         }
     }
+
+    public function actualizarUsuario(Request $request){
+        
+    try{
+
+            $email = request()->query('email');
+            $usuario = Usuario::where('email', $email)->first();
+
+            if (!$usuario) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Usuario no encontrado'
+                ], 404);
+            }
+    
+            $usuario->nombre = $request->nombre;         
+            $usuario->foto = $request->foto;
+            $usuario->cargo = $request->cargo;
+            $usuario->ubicacion = $request->ubicacion;
+            $usuario->biografia = $request->biografia;
+    
+            $usuario->save();
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Usuario actualizado correctamente',
+                'data' => $usuario
+            ], 200);
+
+    }catch(\Exception $e){
+        Log::error('Error al actualizar usuario:', [
+            'message' => $e->getMessage(),
+        ]);
+        
+        return response()->json([
+            'success' => false,
+            'message' => 'Error al actualizar usuario',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+
+    }
+
+    public function actualizarContraseña(Request $request){
+        
+       
+    }
+
 }
