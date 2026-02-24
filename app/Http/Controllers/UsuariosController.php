@@ -161,7 +161,54 @@ class UsuariosController extends Controller
 
     public function actualizarContraseña(Request $request){
         
-       
+    try{
+
+            $email = request()->query('email');
+            $usuario = Usuario::where('email', $email)->first();
+
+            if (!$usuario) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Usuario no encontrado'
+                ], 404);
+            }
+
+            if (!Hash::check($request->actual, $usuario->password)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Contraseña actual incorrecta'
+                ], 401);
+            }
+
+            if ($request->nueva !== $request->confirmar) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'La nueva contraseña y la confirmación no coinciden'
+                ], 400);
+            }
+    
+            $usuario->password = Hash::make($request->nueva);
+    
+            $usuario->save();
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Contraseña actualizada correctamente',
+                'data' => $usuario
+            ], 200);
+    }catch(\Exception $e){
+        Log::error('Error al actualizar contraseña:', [
+            'message' => $e->getMessage(),
+        ]);
+        
+        return response()->json([
+            'success' => false,
+            'message' => 'Error al actualizar contraseña',
+            'error' => $e->getMessage()
+        ], 500);
+
+    }
+
     }
 
 }
