@@ -211,4 +211,41 @@ class UsuariosController extends Controller
 
     }
 
+    public function funcionAdmin(Request $request){
+        try{
+            $email = request()->query('email');
+            $usuario = Usuario::where('email', $email)->first();
+
+            if (!$usuario) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Usuario no encontrado funcion admin'
+                ], 404);
+            }
+
+            if ($usuario->tipo === 'Empresa') {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Acceso concedido a función de administrador',
+                    'data' => $usuario
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Acceso denegado. Usuario no es administrador.'
+                ], 403);
+            }
+        }catch(\Exception $e){
+            Log::error('Error en función admin:', [
+                'message' => $e->getMessage(),
+            ]);
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Error en función admin',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 }
