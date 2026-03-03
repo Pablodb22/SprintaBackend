@@ -117,33 +117,45 @@ class UsuariosController extends Controller
         }
     }
 
-    public function actualizarUsuario(Request $request){
+   public function actualizarUsuario(Request $request){
         
     try{
+        $email = request()->query('email');
+        $usuario = Usuario::where('email', $email)->first();
 
-            $email = request()->query('email');
-            $usuario = Usuario::where('email', $email)->first();
+        if (!$usuario) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Usuario no encontrado'
+            ], 404);
+        }
+        
+        if ($request->cod_empresa) {
+            $empresa = Usuario::where('id', $request->cod_empresa)                              
+                              ->first();
 
-            if (!$usuario) {
+            if (!$empresa) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Usuario no encontrado'
-                ], 404);
+                    'message' => 'El código de empresa no es válido'
+                ], 422);
             }
-    
-            $usuario->nombre = $request->nombre;         
-            $usuario->foto = $request->foto;
-            $usuario->cargo = $request->cargo;
-            $usuario->ubicacion = $request->ubicacion;
-            $usuario->biografia = $request->biografia;
-    
-            $usuario->save();
-    
-            return response()->json([
-                'success' => true,
-                'message' => 'Usuario actualizado correctamente',
-                'data' => $usuario
-            ], 200);
+        }
+
+        $usuario->nombre    = $request->nombre;         
+        $usuario->foto      = $request->foto;
+        $usuario->cargo     = $request->cargo;
+        $usuario->ubicacion = $request->ubicacion;
+        $usuario->biografia = $request->biografia;
+        $usuario->cod_empresa = $request->cod_empresa;
+
+        $usuario->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Usuario actualizado correctamente',
+            'data' => $usuario
+        ], 200);
 
     }catch(\Exception $e){
         Log::error('Error al actualizar usuario:', [
@@ -156,8 +168,7 @@ class UsuariosController extends Controller
             'error' => $e->getMessage()
         ], 500);
     }
-
-    }
+}
 
     public function actualizarContraseña(Request $request){
         
