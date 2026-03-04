@@ -290,10 +290,23 @@ class UsuariosController extends Controller
                     'data' => $data
                 ], 200);
             } else {
+                $trabajadores = Usuario::where('cod_empresa', $usuario->cod_empresa)->get();
+
+                $data=[];
+
+                foreach($trabajadores as $trabajador){
+                    $data[]=[
+                        'id' => $trabajador->id,
+                        'nombre' => $trabajador->nombre,                        
+                        'foto' => $trabajador->foto
+                    ];
+                }
+                
                 return response()->json([
-                    'success' => false,
-                    'message' => 'Acceso denegado. Usuario no es empresa.'
-                ], 403);
+                    'success' => true,
+                    'message' => 'Trabajadores encontrados',
+                    'data' => $data
+                ], 200);
             }
         }catch(\Exception $e){
             Log::error('Error en función buscar trabajadores:', [
