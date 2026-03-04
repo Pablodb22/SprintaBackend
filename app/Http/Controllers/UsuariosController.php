@@ -259,4 +259,54 @@ class UsuariosController extends Controller
         }
     }
 
+    public function buscarTrabajadores(Request $request){
+        try{
+            $email = request()->query('email');
+            $usuario = Usuario::where('email', $email)->first();
+
+            if (!$usuario) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Usuario no encontrado función buscar trabajadores'
+                ], 404);
+            }
+
+            if ($usuario->tipo === 'Empresa') {
+                $trabajadores = Usuario::where('cod_empresa', $usuario->id)->get();
+
+                $data=[];
+
+                foreach($trabajadores as $trabajador){
+                    $data[]=[
+                        'id' => $trabajador->id,
+                        'nombre' => $trabajador->nombre,                        
+                        'foto' => $trabajador->foto
+                    ];
+                }
+                
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Trabajadores encontrados',
+                    'data' => $data
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Acceso denegado. Usuario no es empresa.'
+                ], 403);
+            }
+        }catch(\Exception $e){
+            Log::error('Error en función buscar trabajadores:', [
+                'message' => $e->getMessage(),
+            ]);
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Error en función buscar trabajadores',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+
+    }
+
 }
