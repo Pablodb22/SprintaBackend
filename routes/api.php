@@ -15,3 +15,5 @@ Route::put('/usuarioActualizado',[UsuariosController::class,'actualizarUsuario']
 Route::put('/usuarioNuevaPassword',[UsuariosController::class,'actualizarContraseña']);
 
 Route::get('/funcionAdmin',[UsuariosController::class,'funcionAdmin']);
+
+Route::get('/buscarTrabajadores',[UsuariosController::class,'buscarTrabajadores']);
