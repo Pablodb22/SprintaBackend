@@ -20,3 +20,5 @@ Route::get('/funcionAdmin',[UsuariosController::class,'funcionAdmin']);
 Route::get('/buscarTrabajadores',[UsuariosController::class,'buscarTrabajadores']);
 
 Route::post('/crearProyectos',[ProyectosController::class,'crearProyecto']);
+
+Route::get('/getProyectos',[ProyectosController::class,'getProyectos']);

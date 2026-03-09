@@ -20,7 +20,9 @@ class Proyectos extends Model
         'id', 
         'nombre',
         'tipo',
+        'descripcion',
         'trabajadores',
-        'tareas'
+        'tareas',
+        'empresa'
     ];
 }

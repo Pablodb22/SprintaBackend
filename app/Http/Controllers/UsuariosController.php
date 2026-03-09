@@ -243,7 +243,8 @@ class UsuariosController extends Controller
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Acceso denegado. Usuario no es administrador.'
+                    'message' => 'Acceso denegado. Usuario no es administrador.',
+                    'data'=>$usuario
                 ], 403);
             }
         }catch(\Exception $e){
