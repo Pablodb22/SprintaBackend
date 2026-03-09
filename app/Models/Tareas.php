@@ -12,9 +12,9 @@ class Tareas extends Model
     protected $primaryKey = 'id';
     public $incrementing = false; 
     protected $keyType = 'string';
-    public $timestamps = true;
     
-    const CREATED_AT = 'created_at';    
+    
+    public $timestamps = false;    
 
     protected $fillable = [
         'id', 

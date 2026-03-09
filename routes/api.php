@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProyectosController;
+use App\Http\Controllers\TareasController;
 use App\Http\Controllers\UsuariosController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,5 @@ Route::get('/buscarTrabajadores',[UsuariosController::class,'buscarTrabajadores'
 Route::post('/crearProyectos',[ProyectosController::class,'crearProyecto']);
 
 Route::get('/getProyectos',[ProyectosController::class,'getProyectos']);
+
+Route::post('/crearTareas',[TareasController::class,'crearTareas']);
