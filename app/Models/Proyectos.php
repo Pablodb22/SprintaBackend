@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Proyectos extends Model
-{   
+{
+    use HasFactory;
 
     protected $table = 'proyectos';
     protected $primaryKey = 'id';
     public $incrementing = false; 
     protected $keyType = 'string';
-    public $timestamps = true;
     
-    const CREATED_AT = 'created_at';
+    public $timestamps = false; 
 
     protected $fillable = [
         'id', 
@@ -23,5 +23,4 @@ class Proyectos extends Model
         'trabajadores',
         'tareas'
     ];
-
 }

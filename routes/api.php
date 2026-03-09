@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProyectosController;
 use App\Http\Controllers\UsuariosController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,5 @@ Route::put('/usuarioNuevaPassword',[UsuariosController::class,'actualizarContras
 Route::get('/funcionAdmin',[UsuariosController::class,'funcionAdmin']);
 
 Route::get('/buscarTrabajadores',[UsuariosController::class,'buscarTrabajadores']);
+
+Route::post('/crearProyectos',[ProyectosController::class,'crearProyecto']);
