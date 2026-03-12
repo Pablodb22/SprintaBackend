@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tareas;
+use App\Models\Proyectos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -26,6 +27,31 @@ class TareasController extends Controller
         } catch (\Exception $e) {
             Log::error('Error al crear tarea: ' . $e->getMessage());
             return response()->json(['message' => 'Error al crear tarea'], 500);
+        }
+    }
+
+    public function getTareasPorEmpresa(Request $request)
+    {
+        try {
+            $empresaId = $request->query('empresa_id');
+            
+            if (!$empresaId) {
+                return response()->json(['message' => 'empresa_id es requerido'], 400);
+            }
+            
+            $proyectosIds = Proyectos::where('empresa', $empresaId)->pluck('id');
+
+            if ($proyectosIds->isEmpty()) {
+                return response()->json(['tareas' => []]);
+            }
+            
+            $tareas = Tareas::whereIn('proyecto', $proyectosIds)->get();
+
+            return response()->json(['tareas' => $tareas]);
+
+        } catch (\Exception $e) {
+            Log::error('Error al obtener tareas: ' . $e->getMessage());
+            return response()->json(['message' => 'Error al obtener tareas'], 500);
         }
     }
 

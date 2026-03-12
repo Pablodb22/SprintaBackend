@@ -234,7 +234,7 @@ class UsuariosController extends Controller
                 ], 404);
             }
 
-            if ($usuario->tipo === 'Empresa') {
+           if ($usuario->tipo === 'Empresa') {
                 return response()->json([
                     'success' => true,
                     'message' => 'Acceso concedido a función de administrador',
@@ -244,8 +244,8 @@ class UsuariosController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Acceso denegado. Usuario no es administrador.',
-                    'data'=>$usuario
-                ], 403);
+                    'data' => $usuario
+                ], 200); 
             }
         }catch(\Exception $e){
             Log::error('Error en función admin:', [
