@@ -38,8 +38,7 @@ class TareasController extends Controller
             if (!$empresaId) {
                 return response()->json(['message' => 'empresa_id es requerido'], 400);
             }
-
-            // Cargamos todos los proyectos de la empresa indexados por id
+           
             $proyectos = Proyectos::where('empresa', $empresaId)->get()->keyBy('id');
 
             if ($proyectos->isEmpty()) {
@@ -93,4 +92,47 @@ class TareasController extends Controller
             return response()->json(['message' => 'Error al acabar tarea'], 500);
         }
     }
+public function getTareasPorProyecto(Request $request)
+{
+    try {
+        $proyectoId = $request->query('proyectoId');
+
+        if (!$proyectoId) {
+            return response()->json(['message' => 'proyectoId es requerido'], 400);
+        }
+        
+        $tareas = Tareas::where('proyecto', $proyectoId)->get();
+        
+        $proyecto = Proyectos::find($proyectoId);
+
+        $tareasEnriquecidas = $tareas->map(function ($tarea) use ($proyecto) {
+            $data = $tarea->toArray();
+            $data['proyecto_nombre'] = $proyecto ? $proyecto->nombre : null;
+
+            $ids = [];
+            if (!empty($tarea->trabajadores)) {
+                $decoded = json_decode($tarea->trabajadores, true);
+                $ids = is_array($decoded) ? $decoded : [];
+            }
+
+            if (!empty($ids)) {
+                $usuarios = Usuario::whereIn('id', $ids)
+                    ->select('id', 'nombre', 'foto', 'cargo')
+                    ->get();
+                $data['trabajadores_info'] = $usuarios->values();
+            } else {
+                $data['trabajadores_info'] = [];
+            }
+
+            return $data;
+        });
+
+        return response()->json(['tareas' => $tareasEnriquecidas]);
+
+    } catch (\Exception $e) {
+        Log::error('Error al obtener tareas: ' . $e->getMessage());
+        return response()->json(['message' => 'Error al obtener tareas'], 500);
+    }
+}
+
 }
