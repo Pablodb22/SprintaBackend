@@ -23,7 +23,10 @@ class Tareas extends Model
         'prioridad',
         'trabajadores',
         'proyecto',
+        'acabada',
     ];
 
-
+    protected $casts = [
+        'acabada' => 'boolean',
+    ];
 }

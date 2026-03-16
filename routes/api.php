@@ -27,3 +27,5 @@ Route::get('/getProyectos',[ProyectosController::class,'getProyectos']);
 Route::post('/crearTareas',[TareasController::class,'crearTareas']);
 
 Route::get('/getTareasPorEmpresa', [TareasController::class, 'getTareasPorEmpresa']);
+
+Route::put('/acabarTarea/{id}', [TareasController::class, 'acabarTarea']);
