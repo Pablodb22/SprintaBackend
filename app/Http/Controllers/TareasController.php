@@ -21,6 +21,7 @@ class TareasController extends Controller
             $tarea->prioridad = $request->input('prioridad');
             $tarea->proyecto = $request->input('proyecto');
             $tarea->trabajadores = json_encode($request->input('trabajadores', []));
+            $tarea->acabada = false;
             $tarea->save();
 
             return response()->json(['message' => 'Tarea creada exitosamente', 'tarea' => $tarea], 201);
@@ -55,4 +56,17 @@ class TareasController extends Controller
         }
     }
 
+    public function acabarTarea(Request $request, string $id)
+    {
+        try {
+            $tarea = Tareas::findOrFail($id);
+            $tarea->acabada = true;
+            $tarea->save();
+
+            return response()->json(['message' => 'Tarea marcada como acabada', 'tarea' => $tarea]);
+        } catch (\Exception $e) {
+            Log::error('Error al acabar tarea: ' . $e->getMessage());
+            return response()->json(['message' => 'Error al acabar tarea'], 500);
+        }
+    }
 }
