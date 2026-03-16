@@ -29,3 +29,7 @@ Route::post('/crearTareas',[TareasController::class,'crearTareas']);
 Route::get('/getTareasPorEmpresa', [TareasController::class, 'getTareasPorEmpresa']);
 
 Route::put('/acabarTarea/{id}', [TareasController::class, 'acabarTarea']);
+
+Route::get('/getTareasPorProyecto', [TareasController::class, 'getTareasPorProyecto']);
+
+Route::delete('/eliminarProyecto/{id}', [ProyectosController::class, 'eliminarProyecto']);

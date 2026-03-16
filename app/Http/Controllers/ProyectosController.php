@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tareas;
 use App\Models\Proyectos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -48,6 +49,27 @@ public function getProyectos(Request $request)
     } catch (\Exception $e) {
         Log::error('Error al obtener proyectos: ' . $e->getMessage());
         return response()->json(['message' => 'Error al obtener proyectos'], 500);
+    }
+}
+
+
+public function eliminarProyecto(string $id)
+{
+    try {
+        $proyecto = Proyectos::findOrFail($id);
+
+        Tareas::where('proyecto', $id)->delete();
+        
+        $proyecto->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Proyecto y sus tareas eliminados correctamente'
+        ], 200);
+
+    } catch (\Exception $e) {
+        Log::error('Error al eliminar proyecto: ' . $e->getMessage());
+        return response()->json(['message' => 'Error al eliminar proyecto'], 500);
     }
 }
 
