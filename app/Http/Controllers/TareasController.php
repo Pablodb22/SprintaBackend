@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Tareas;
 use App\Models\Proyectos;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class TareasController extends Controller
 {
- 
+
     public function crearTareas(Request $request)
     {
         try {
@@ -35,20 +34,45 @@ class TareasController extends Controller
     {
         try {
             $empresaId = $request->query('empresa_id');
-            
+
             if (!$empresaId) {
                 return response()->json(['message' => 'empresa_id es requerido'], 400);
             }
-            
-            $proyectosIds = Proyectos::where('empresa', $empresaId)->pluck('id');
 
-            if ($proyectosIds->isEmpty()) {
+            // Cargamos todos los proyectos de la empresa indexados por id
+            $proyectos = Proyectos::where('empresa', $empresaId)->get()->keyBy('id');
+
+            if ($proyectos->isEmpty()) {
                 return response()->json(['tareas' => []]);
             }
-            
-            $tareas = Tareas::whereIn('proyecto', $proyectosIds)->get();
 
-            return response()->json(['tareas' => $tareas]);
+            $tareas = Tareas::whereIn('proyecto', $proyectos->keys())->get();
+
+            $tareasEnriquecidas = $tareas->map(function ($tarea) use ($proyectos) {
+                $data = $tarea->toArray();
+                
+                $proyecto = $proyectos->get($tarea->proyecto);
+                $data['proyecto_nombre'] = $proyecto ? $proyecto->nombre : null;
+                
+                $ids = [];
+                if (!empty($tarea->trabajadores)) {
+                    $decoded = json_decode($tarea->trabajadores, true);
+                    $ids = is_array($decoded) ? $decoded : [];
+                }
+                
+                if (!empty($ids)) {
+                    $usuarios = Usuario::whereIn('id', $ids)
+                        ->select('id', 'nombre', 'foto', 'cargo')
+                        ->get();
+                    $data['trabajadores_info'] = $usuarios->values();
+                } else {
+                    $data['trabajadores_info'] = [];
+                }
+
+                return $data;
+            });
+
+            return response()->json(['tareas' => $tareasEnriquecidas]);
 
         } catch (\Exception $e) {
             Log::error('Error al obtener tareas: ' . $e->getMessage());
