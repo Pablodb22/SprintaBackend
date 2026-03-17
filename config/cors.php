@@ -5,7 +5,9 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [
+    'https://sprinta-frontend.vercel.app',
+],
 
     'allowed_origins_patterns' => [],
 
