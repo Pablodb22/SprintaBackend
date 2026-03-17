@@ -2,7 +2,7 @@
 
 [![Laravel](https://img.shields.io/badge/Laravel-12-red.svg)](https://laravel.com) [![PHP](https://img.shields.io/badge/PHP-8.2-blue.svg)](https://php.net) [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-orange.svg)](https://neon.tech) [![Docker](https://img.shields.io/badge/Docker-Supported-green.svg)](https://docker.com)
 
-**Sprinta** es una plataforma completa de gestión de proyectos y tareas colaborativas. Este repositorio contiene el **backend robusto** construido con **Laravel 12**, diseñado para integrarse perfectamente con el [frontend en Next.js](https://github.com/[tu-usuario]/sprinta-frontend).
+**Sprinta** es una plataforma completa de gestión de proyectos y tareas colaborativas. Este repositorio contiene el **backend robusto** construido con **Laravel 12**, diseñado para integrarse perfectamente con el [frontend en Next.js](https://github.com/Pablodb22/SprintaFrontend).
 
 ## 🛠️ Tecnologías del Stack
 
