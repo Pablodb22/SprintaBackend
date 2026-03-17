@@ -1,59 +1,136 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚀 Sprinta - Backend API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![Laravel](https://img.shields.io/badge/Laravel-12-red.svg)](https://laravel.com) [![PHP](https://img.shields.io/badge/PHP-8.2-blue.svg)](https://php.net) [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-orange.svg)](https://neon.tech) [![Docker](https://img.shields.io/badge/Docker-Supported-green.svg)](https://docker.com)
 
-## About Laravel
+**Sprinta** es una plataforma completa de gestión de proyectos y tareas colaborativas. Este repositorio contiene el **backend robusto** construido con **Laravel 12**, diseñado para integrarse perfectamente con el [frontend en Next.js](https://github.com/[tu-usuario]/sprinta-frontend).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🛠️ Tecnologías del Stack
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| Componente | Tecnología | Versión |
+|------------|------------|---------|
+| **Backend** | Laravel + PHP | 12.x + 8.2 |
+| **Base de Datos** | PostgreSQL (Neon) | Serverless |
+| **Frontend** | Next.js + TypeScript | 14.x + TailwindCSS |
+| **Despliegue** | Docker + Vite | ✅ Listo |
+| **Cache/Queues** | Redis + Database | Configurado |
+| **Testing** | PHPUnit | ✅ |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ✨ Funcionalidades Principales
 
-## Learning Laravel
+### 👥 Gestión de Usuarios
+- 📝 Registro y autenticación completa
+- 🔐 Autenticación API segura con Sanctum
+- 👤 Perfiles de usuario personalizados (Modelo `Usuario`)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 📂 Gestión de Proyectos
+- 🆕 CRUD completo de proyectos
+- 👥 Asignación de equipos y colaboradores
+- 📊 Estados y seguimiento avanzado
+- 🎯 Control de acceso por proyecto (Modelo `Proyectos`)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### ✅ Gestión de Tareas
+- 📋 Tareas con prioridades y fechas límite
+- 👥 Asignación a miembros del equipo
+- 📈 Estados de progreso (To Do, In Progress, Done)
+- 🔗 Relación con proyectos (Modelo `Tareas`)
 
-## Laravel Sponsors
+### 🌐 API RESTful Completa
+```
+GET    /api/usuarios       → Lista de usuarios
+POST   /api/usuarios       → Crear usuario
+GET    /api/proyectos      → Lista de proyectos
+POST   /api/proyectos      → Crear proyecto
+PUT    /api/proyectos/{id} → Actualizar proyecto
+GET    /api/tareas         → Lista de tareas
+POST   /api/tareas         → Crear tarea
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🚀 Inicio Rápido
 
-### Premium Partners
+### 1. Clonar y Configurar
+```bash
+git clone https://github.com/[tu-usuario]/sprinta-backend.git
+cd sprinta-backend
+cp .env.example .env
+php artisan key:generate
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 2. Base de Datos (PostgreSQL Neon)
+```bash
+# Configurar DB_URL en .env
+php artisan migrate
+php artisan db:seed
+```
 
-## Contributing
+### 3. Instalar Dependencias
+```bash
+composer install
+npm install
+npm run build
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4. Ejecutar Servidor de Desarrollo
+```bash
+# Opción 1: Comando completo
+composer run dev
 
-## Code of Conduct
+# Opción 2: Manual
+php artisan serve &
+npm run dev
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 5. Docker (Opcional)
+```bash
+docker build -t sprinta-backend .
+docker run -p 8000:9000 sprinta-backend
+```
 
-## Security Vulnerabilities
+## 📱 Integración Frontend
+El frontend Next.js se comunica via API REST:
+```typescript
+// Ejemplo en Next.js
+const response = await fetch('/api/proyectos');
+const proyectos = await response.json();
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🧪 Testing
+```bash
+composer run test
+# O detallado
+php artisan test
+```
 
-## License
+## 📈 Estructura del Proyecto
+```
+sprinta-backend/
+├── app/
+│   ├── Http/Controllers/     # Controladores API
+│   ├── Models/               # Modelos Eloquent
+│   └── Providers/
+├── database/migrations/      # Migraciones PostgreSQL
+├── routes/api.php            # Rutas API
+├── resources/                # Assets frontend
+└── tests/                    # Pruebas automatizadas
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🔒 Seguridad & Performance
+- ✅ CSRF Protection y CORS configurado
+- ✅ Rate Limiting en rutas críticas
+- ✅ Validación de datos robusta
+- ✅ Cache y Queue optimizados
+- ✅ Logs estructurados con Pail
+
+## 🤝 Contribuir
+1. Fork del repositorio
+2. Crear feature branch (`git checkout -b feature/nueva-funcionalidad`)
+3. Commit cambios (`git commit -m 'Add nueva funcionalidad'`)
+4. Push (`git push origin feature/nueva-funcionalidad`)
+5. Abrir Pull Request
+
+## 📄 Licencia
+Este proyecto está bajo la [Licencia MIT](LICENSE).
+
+---
+
+**Desarrollado con ❤️ para la gestión eficiente de proyectos**  
+[![Laravel](https://laravel.com/assets/img/og-image.png)](https://laravel.com)
