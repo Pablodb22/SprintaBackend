@@ -9,8 +9,9 @@
 | Componente | Tecnología | Versión |
 |------------|------------|---------|
 | **Backend** | Laravel + PHP | 12.x + 8.2 |
-| **Base de Datos** | PostgreSQL (Neon) | Serverless |
 | **Frontend** | Next.js + TypeScript | 14.x + TailwindCSS |
+| **Base de Datos** | PostgreSQL (Neon) | Serverless |
+
 
 ## ✨ Funcionalidades Principales
 
