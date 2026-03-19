@@ -11,9 +11,6 @@
 | **Backend** | Laravel + PHP | 12.x + 8.2 |
 | **Base de Datos** | PostgreSQL (Neon) | Serverless |
 | **Frontend** | Next.js + TypeScript | 14.x + TailwindCSS |
-| **Despliegue** | Docker + Vite | ✅ Listo |
-| **Cache/Queues** | Redis + Database | Configurado |
-| **Testing** | PHPUnit | ✅ |
 
 ## ✨ Funcionalidades Principales
 
